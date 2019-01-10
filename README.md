@@ -1,1 +1,4 @@
-# url_checker
+# url_validator
+
+
+### URL Validator function 
