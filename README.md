@@ -1,4 +1,1 @@
-# url_validator
-
-
-### URL Validator  
+#JavaScript URL Validator
