@@ -11,6 +11,7 @@
         this.protocol = "";
         this.port = "";
         this.parameter = ""; 
+        this.isUrl = false;
 
         this.validProtocolList = ["http", "https", "ftp"];
         this._validProtocolExist = /^(?:(?:\w+):\/\/){1}/;
@@ -18,7 +19,7 @@
         this._validSpecialCharacter = /[\.\!\@\#\$\%\^\&\*\(\)\+\~\\\;\[\]\'\,\.\:\/\{\}\\<\>\?\`\|]/;
         this._validPort = /(\:\d+$)/;
         
-        this.isUrl();
+        this.validUrl();
         
     }
 
@@ -28,7 +29,7 @@
         * @return {String} URL String without Protocol
     */
     removeProtocolString(url) {
-        var regex = /^(?:(ht|f)tp(s?)\:\/\/)?/;
+        let regex = /^(?:(ht|f)tp(s?)\:\/\/)?/;
         return url.replace(regex, '');
     }
 
@@ -50,42 +51,44 @@
 
         return url;
     }
+    
+    /**
+     * @brief GET Protocol String
+     * @param {String} url url string
+     * @return {String} protocol string
+    */
+    getProtocol(url) {
+        let result = url.match(this._validProtocolExist);
+        
+        if (!Array.isArray(result)) {
+            throw "PROTOCOL ERROR";
+        }
+        
+        return result[0].replace("://","");
+    }
 
     /**
         * @brief check is valid URL
         * @return {Bool} if url is valid, true if not, false
     */
-    isUrl() {
-        var hostSplit = [];
-        var hostSearch = [];
-        var splitDelim = '.';
-
-        //check is protocol exists
+    validUrl() {
+        let hostSplit = [];
+        let hostSearch = [];
+        let splitDelim = ".";
+        
         this.url = this.isValidProtocol(this.url);
- 
+        this.protocol = this.getProtocol(this.url);
+        this.hostname = this.url.replace(this.protocol+"://", "").replace(/^www\./gi, "");
+        
         if (this.url == "") {
-            //protocol error
             throw "INVALID PROTOCOL";
         }
-
-        //protocol string
-        this.protocol = this.url.match(this._validProtocolExist);
 
         //protocol error 
         if (this.protocol == undefined || this.protocol == "" || this.protocol == null) {
             throw "NO PROTOCOL";
         }
 
-        //protocol error
-        if (!Array.isArray(this.protocol)) {
-            throw "PROTOCOL ERROR";
-        }
-
-        //remove protocol from hostname 
-        this.hostname = this.url.replace(this.protocol[0], "");
- 
-        
-        this.protocol = this.protocol[0].replace("://", "");
 
         //split last character of hostname (is it / or ?)
         if (this.hostname.indexOf("/") != -1) {
@@ -102,9 +105,6 @@
             this.parameter = hostSearch.join("");
         }
         
-        this.hostname = this.hostname.replace(/^www\./gi, "");
-
-
         //split hostname with .
         hostSplit = this.hostname.split(splitDelim);
 
@@ -130,7 +130,7 @@
         }
 
 
-        for (var i = 0; i < hostSplit.length; i++) {
+        for (let i = 0; i < hostSplit.length; i++) {
             //each part of hostname's (split by .) length should be less than 63
             if (hostSplit[i].length > 63) {
                 throw "OVER HOSTNAME LENGTH LIMIT";
@@ -156,6 +156,7 @@
             }
         }
 
+        this.isUrl = true;
         return true;  
     }
 }
