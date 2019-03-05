@@ -197,7 +197,7 @@
                     }
 
                     // Get port number
-                    const portInfo = hostSplit[i].match(this._validPort);
+                    let portInfo = hostSplit[i].match(this._validPort);
 
                     if (portInfo.length > 0) {
 
