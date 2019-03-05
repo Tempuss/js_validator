@@ -224,7 +224,7 @@ class UrlCheck {
 
 // Test case
 describe('validator.js', function() {
-  it('Correct URL', function() {
+  it('CORRECT URL', function() {
     var url = new UrlCheck("https://www.naver.com:443?fdsfdsf=?fdsfsdf");
     
     let expectedStr = true, 
