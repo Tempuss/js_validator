@@ -1,0 +1,7 @@
+{
+    "name": "test",
+    "repository": "http://github.com",
+    "scripts": {
+      "test": "karma start"
+    }
+  }
