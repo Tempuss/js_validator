@@ -233,6 +233,15 @@ describe('validator.js', function() {
     expect(actualStr).toBe(expectedStr);
   });
   
+  it('CORRECT URL', function() {
+    var url = new UrlCheck("https://8.8.8.8:443?fdsfdsf=?fdsfsdf");
+    
+    let expectedStr = true, 
+        actualStr = url.isUrl;
+
+    expect(actualStr).toBe(expectedStr);
+  });
+  
   it('NO URL', function() {
   
     expect(function() { 
