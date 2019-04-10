@@ -10,6 +10,9 @@ class Protocol {
             "https",
             "ftp"
         ];
+
+        this._validProtocolExist = /^(?:(?:\w+):\/\/){1}/;
+        this._validProtocol = new RegExp(`^(${this.validProtocolList.join("|")}?):\/\/([^:\/\s]+)`, "i");
         
     }
 
@@ -35,6 +38,10 @@ class Protocol {
 
     getProtocol() {
         return this.protocol;
+    }
+
+    getValidProtocolList() {
+
     }
 
 }
