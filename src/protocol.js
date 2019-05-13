@@ -5,19 +5,19 @@ class Protocol {
         this.protocol = "";
         this.isValid = false;
         
-        this.validProtocolList = [
+        this._validProtocolList = [
             "http",
             "https",
             "ftp"
         ];
 
         this._validProtocolExist = /^(?:(?:\w+):\/\/){1}/;
-        this._validProtocol = new RegExp(`^(${this.validProtocolList.join("|")}?):\/\/([^:\/\s]+)`, "i");
+        this._validProtocol = new RegExp(`^(${this._validProtocolList.join("|")}?):\/\/([^:\/\s]+)`, "i");
         
     }
 
     validateProtocol(protocol) {
-        if (this.validProtocolList.indexOf(protocol) == -1) {
+        if (this._validProtocolList.indexOf(protocol) == -1) {
             return false;
         }
 
@@ -40,8 +40,34 @@ class Protocol {
         return this.protocol;
     }
 
-    getValidProtocolList() {
+    isProtocolExist(url) {
+        if (this._validProtocolExist.test(url)) {
+            let result = url.match(this._validProtocolExist);
+            let protocol = "";
 
+            if (!Array.isArray(result)) {
+
+                throw "PROTOCOL ERROR";
+    
+            }
+    
+            protocol = result[0].replace("://", "");
+
+            this.setProtocol(protocol);
+
+            return true;
+        } else {
+            return false;
+        }
     }
+
+    modifyUrlProtocol(url) {
+        if (this.isProtocolExist(url)) {
+            return url;
+        } else {
+            return "http://"+url;
+        }
+    }
+
 
 }

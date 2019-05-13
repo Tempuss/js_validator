@@ -7,7 +7,11 @@ class Domain {
         this.maxLabelLength = 63; 
     
         this.domain = "";
+        this.topDomain = "";
         this.label = [];
+
+        this._validSpecialCharacter = /[\.\!\@\#\$\%\^\&\*\(\)\+\~\\\;\[\]\'\,\.\:\/\{\}\\<\>\?\`\|]/;
+
         
     }
     
@@ -30,10 +34,12 @@ class Domain {
     }
     
     splitDomainLabel() {
+
         let splitChar = ".";
         let splitResult = this.domain.split(splitChar);
-        splitResult.pop();
-        
+        let topDomainStr = splitResult.pop();
+
+        this.setTopDomain(topDomainStr);
         this.label = splitResult;
     }
     
@@ -75,5 +81,20 @@ class Domain {
         return true;
 
     }
+
+    getDomain() {
+        return this.domain;
+    }
     
+    getLabel() {
+        return this.label;
+    }
+
+    getTopDomain() {
+        return this.topDomain;
+    }
+
+    setTopDomain(str) {
+        this.topDomain = str;
+    }
 }
